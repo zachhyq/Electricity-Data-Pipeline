@@ -1,20 +1,24 @@
+#import config
 import pandas as pd
 from openelectricity import OEClient
 from openelectricity.types import MarketMetric
 from datetime import datetime, timedelta
 
 
-def getMarketPrices():
+NETWORK = "NEM"
+
+def getMarketPrices(region):
+
     try:
         with OEClient() as client:
 
             start_time = datetime.now() - timedelta(days=1) - timedelta(hours=1)
 
-
+            #Requesting Price and Demand data for specified region in past 24 hours
             response = client.get_market(
-                network_code="NEM",
-                network_region="VIC1",
-                metrics=[MarketMetric.PRICE, MarketMetric.DEMAND],
+                network_code = NETWORK,
+                network_region = region,
+                metrics = [MarketMetric.PRICE, MarketMetric.DEMAND],
                 interval="1h",
                 date_start=start_time
             )
@@ -22,13 +26,7 @@ def getMarketPrices():
             df = response.to_pandas()
             #Convert to naive datetime object and then local timezone.
             df['interval'] = pd.to_datetime(df['interval']) - timedelta(hours=10)
-            
 
-
-            # 1. Handle MultiIndex columns (Price/Demand)
-            # if isinstance(df.columns, pd.MultiIndex):
-            #     df.columns = [col[0].name.lower() if hasattr(col[0], 'name') else str(col[0]).lower() 
-            #                  for col in df.columns]
 
             df = df.reset_index(drop=True)
 

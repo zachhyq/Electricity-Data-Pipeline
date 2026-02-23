@@ -2,7 +2,7 @@ import requests
 import pandas as pd
 from datetime import datetime, timedelta
 
-def get_temps():
+def get_temps(coords_dict):
     try:
         start_time = datetime.now() - timedelta(hours=24)
         end_time = datetime.now() - timedelta(hours=1)  # Get data up to the last full hour
@@ -11,8 +11,8 @@ def get_temps():
         # Define the API endpoint and parameters
         url = "https://api.open-meteo.com/v1/forecast"
         params = {
-            "latitude": -37.8136,  # Melbourne latitude
-            "longitude": 144.9631,  # Melbourne longitude
+            "latitude": coords_dict["latitude"],
+            "longitude": coords_dict["longitude"],
             "hourly": "temperature_2m",
             "start_hour": start_time.strftime("%Y-%m-%dT%H:00"),   
             "end_hour": end_time.strftime("%Y-%m-%dT%H:00"),
