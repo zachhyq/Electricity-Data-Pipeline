@@ -1,6 +1,7 @@
 # Python-generated files
 __pycache__/
 .env
+.env.db
 *.py[oc]
 build/
 dist/
@@ -9,3 +10,7 @@ wheels/
 
 # Virtual environments
 .venv
+
+
+
+.DS_Store
