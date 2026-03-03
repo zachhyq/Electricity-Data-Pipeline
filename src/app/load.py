@@ -39,3 +39,8 @@ def load_data(df):
     
 
 
+if __name__ == "__main__":
+    load_dotenv(".env.db")
+    url = os.getenv("APP_DB_URL")
+    print(f"Database URL: {url}")
+    engine = create_engine(url)
